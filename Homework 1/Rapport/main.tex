@@ -51,14 +51,14 @@
     % ----- Context ----- %
     \subsection{Context}
     The current engineering prowesses allow us to build buildings higher and higher. These constructions are subject to various disturbances (mainly wind, but also earthquakes) that make them oscillate. They turn into giant pendulum and swing from left to right, sometimes moving several meters at the top !\cite{YouTube_minutephysics}\par
-    To reduce these oscillations, we use a passive system, called {\it tuned mass damper}, which consists of concealing a tuned and harmonic oscillator at the top of the tower. It is coupled to its movement and oscillates in phase opposition to recover the kinetic energy of the tower and thus reduce the oscillations.\cite{Wikipedia_amortisseur_tmd}\par
+    To reduce these oscillations, we use a passive system, called {\it tuned mass damper}, which consists of concealing a tuned and harmonic oscillator at the top of the tower. It is coupled to its movement and oscillates in phase opposition to recover the kinetic energy of the tower and thus reduces the oscillations.\cite{Wikipedia_amortisseur_tmd}\par
     An active version of this system exists : the {\it active mass damper}. It consists of the same principle as the tuned mass damper but it is equipped with sensors and actuators to measure the oscillations of its environment and, via an algorithm, generate a movement for the mass that reduce or totally remove these oscillations.\cite{sciencedirect_amd}\par
     Our study field focuses on the active mass damper systems used to reduce the oscillations caused by the {\bf wind} on {\bf tall} buildings. More specifically, we will focus on a simplified model : a block linked to a spring (to simulate the oscillations of the building) and a smaller moving mass placed over it that stabilises the system.\par
     This model is presented in figure \ref{fig:schema}.
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.7\textwidth]{resources/pdf/schema.pdf}
-        \caption{Simplified schema of an active mass damper for stabilise a tall building}
+        \caption{Simplified schema of an active mass damper for stabilise a tall building\cite{sciencedirect_amd_2}}
         \label{fig:schema}
     \end{figure}
     
@@ -75,11 +75,11 @@
     % ----- Control problem description ----- %
     \subsection{Control problem description}
     \begin{itemize}
-        \item {\bf Utility of the controller} : the controller allows the system to be active, {\it i.e.} to measure the oscillations to which it is subjected and to generate a movement, thanks to the servo-motor, for the moving mass that will reduce, or even eliminate totally, the oscillations.
-        \item {\bf System to be controlled} : the tower, and more specifically its position.
-        \item {\bf Inputs of the system} : wind forces acting on the tower and on the moving mass.
-        \item {\bf Outputs of the system} : the relative distance between the vertical position and the displacement of the tower and the horizontal acceleration of the top of the tower relative to the ground.
-        \item {\bf Reference} : the vertical position of the tower and an acceleration of \SI{0}{\meter\per\second\squared}.
+        \item {\bf Utility of the controller} : the controller (the algorithm) allows the system (the tower) to be active, {\it i.e.} to measure the oscillations to which it is subjected and to cancel it. Thanks to a servo-motor, the mass can move and reduce, or even eliminate totally, the oscillations.
+        \item {\bf System to be controlled} : the tower (and the position of the tower is the signal)
+        \item {\bf Inputs of the system} : wind forces acting on the tower (uncontrollable) and on the moving mass (controllable).
+        \item {\bf Outputs of the system} : the relative distance between the vertical position and the displacement of the tower.
+        \item {\bf Reference} : the vertical position of the tower.
         \item {\bf Actuators} : servo-motor to move the cart that reduces the oscillations.
         \item {\bf Constraints and limitations} : to simplify our system, we consider a tower \SI{500}{\meter} high, perfectly vertical when it undergoes no disturbance. The only disturbance on this tower is the strength of the wind. The wind, ranging from a few tens of \SI{}{\kilo\meter/\hour} to a hundred \SI{}{\kilo\meter/\hour}, can swing the tower from a few centimetres to several meters.
     \end{itemize}
