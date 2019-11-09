@@ -1,2 +1,13 @@
+################
+# System files #
+################
+
 .DS_Store
-Homework 1/Ressources/
+
+
+#################
+# Project files #
+#################
+
+**/resources/
+!**/latex/resources/
