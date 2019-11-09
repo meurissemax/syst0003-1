@@ -1,0 +1,80 @@
+\documentclass[a4paper, 12pt]{article}
+
+\def\languages{french, english}
+
+%%%%%%%%%%%%%%%%%%% Libraries
+
+\input{include/libraries/bibliography.tex}
+\input{include/libraries/default.tex}
+\input{include/libraries/figures.tex}
+\input{include/libraries/informatics.tex}
+\input{include/libraries/mathematics.tex}
+\input{include/libraries/theorems.tex}
+\input{include/libraries/units.tex}
+
+%%%%%%%%%%%%%%%%%%% Titlepage
+
+\def\logopath{resources/pdf/logo-uliege.pdf}
+\def\toptitle{University of Liège}
+\title{Active mass damper}
+\def\subtitle{Linear control systems}
+%\def\authorhead{Author}
+\author{
+    Bastien \textsc{Hoffmann} (20161283)\\
+    Maxime \textsc{Meurisse} (20161278)\\
+    Valentin \textsc{Vermeylen} (20162864)\\
+}
+%\def\rightauthorhead{}
+%\def\rightauthor{}
+\def\context{Master in Civil Engineering}
+\date{Academic year 2019-2020}
+
+%%%%%%%%%%%%%%%%%%% Options
+
+\fancyhead[R]{}
+\addbibresource{references.bib}
+\defbibheading{bibliography}[\refname]{}
+
+%%%%%%%%%%%%%%%%%%% Document
+
+\begin{document}
+    % ----- Titlepage ----- %
+    \input{include/titlepages/default.tex}
+    
+    % ----- Table of contents ----- %
+    \romantableofcontents
+    
+    % ----- Homework 1 : Motivation and control problem ----- %
+    \section{Motivation and control problem}
+    \input{sections/hw_1/1_context.tex}
+    \input{sections/hw_1/2_control_problem_diagram.tex}
+    \input{sections/hw_1/3_control_problem_description.tex}
+    
+    % ----- Homework 2 : Open loop system ----- %
+    \section{Open loop system}
+    \input{sections/hw_2/1_detailed_schematic.tex}
+    \input{sections/hw_2/2_constraints.tex}
+    \input{sections/hw_2/3_state_space.tex}
+    \input{sections/hw_2/4_simulations.tex}
+    \input{sections/hw_2/5_analysis.tex}
+    
+    % ----- Homework 3 : Controller in time domain ----- %
+    \section{Controller in time domain}
+    \input{sections/hw_3/1_state_feedback.tex}
+    \input{sections/hw_3/2_observer.tex}
+    \input{sections/hw_3/3_constraints.tex}
+    \input{sections/hw_3/4_simulations.tex}
+    
+    % ----- Homework 4 : Frequency domain ----- %
+    \section{Frequency domain}
+    \input{sections/hw_4/1_constraints.tex}
+    \input{sections/hw_4/2_loop_shaping.tex}
+    \input{sections/hw_4/3_gang_four.tex}
+    \input{sections/hw_4/4_delays.tex}
+    
+    % ----- References ----- %
+    \newpage
+    \subsection{References}
+    \nocite{*}
+    \printbibliography
+\end{document}

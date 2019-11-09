@@ -1,0 +1,57 @@
+\documentclass[a4paper, 12pt]{article}
+
+\def\languages{french, english}
+
+%%%%%%%%%%%%%%%%%%% Libraries
+
+\input{include/libraries/bibliography.tex}
+\input{include/libraries/default.tex}
+\input{include/libraries/figures.tex}
+\input{include/libraries/informatics.tex}
+\input{include/libraries/mathematics.tex}
+\input{include/libraries/theorems.tex}
+\input{include/libraries/units.tex}
+
+%%%%%%%%%%%%%%%%%%% Titlepage
+
+\def\logopath{resources/pdf/logo-uliege.pdf}
+\def\toptitle{University of Liège}
+\title{Controller in time domain}
+\def\subtitle{Linear control systems}
+%\def\authorhead{Author}
+\author{
+    Bastien \textsc{Hoffmann} (20161283)\\
+    Maxime \textsc{Meurisse} (20161278)\\
+    Valentin \textsc{Vermeylen} (20162864)\\
+}
+%\def\rightauthorhead{}
+%\def\rightauthor{}
+\def\context{Master in Civil Engineering}
+\date{Academic year 2019-2020}
+
+%%%%%%%%%%%%%%%%%%% Options
+
+\fancyhead[R]{}
+\renewcommand{\thesubsection}{\arabic{subsection}}
+
+%%%%%%%%%%%%%%%%%%% Document
+
+\begin{document}
+    % ----- Titlepage ----- %
+    \input{include/titlepages/default.tex}
+    
+    % ----- Question 1 ----- %
+    \input{sections/question_1.tex}
+    
+    % ----- Question 2 ----- %
+    \input{sections/question_2.tex}
+    
+    % ----- Question 3 ----- %
+    \input{sections/question_3.tex}
+    
+    % ----- Question 4 ----- %
+    \input{sections/question_4.tex}
+    
+    % ----- Question 5 ----- %
+    \input{sections/question_5.tex}
+\end{document}

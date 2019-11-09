@@ -1,0 +1,24 @@
+\subsection{State-space representation analysis}
+
+% Stability
+\subsubsection{Stability}
+To study the stability of the system, we compute the eigenvalues of the dynamic matrix $A$ thanks to Matlab function (\texttt{eig}) :
+\begin{align*}
+    \lambda_1 &= \num{-5 + 8.6603i}\\
+    \lambda_2 &= \num{-5 - 8.6603i}\\
+    \lambda_3 &= \num{-0.0628 + 6.2828i}\\
+    \lambda_4 &= \num{-0.0628 - 6.2828i}
+\end{align*}
+The system is stable if the real parts of the eigenvalue are all negative. In our case, the system is stable.
+
+% Observability
+\subsubsection{Observability}
+To determine whether or not the system is observable, we compute the observability matrix thanks to Matlab function (\texttt{obsv}).\par
+The matrix is full rank (verified with Matlab), the system is thus fully observable.\par
+As seen on the matrix C, we need one sensor. According to the place of the non zero value, this sensor has to measure the $x_1$ state, namely the horizontal position of the top of the building $d_1$. This state is indeed the objective of the active mass damper and has thus to be observed.
+
+% Controllability
+\subsubsection{Controllability}
+To determine whether or not the system is controllable, we compute the controllable matrix thanks to Matlab function (\texttt{ctrb}). In order not to take into account the uncontrollable input (wind), only the second column of the B matrix was kept for the calculation.\par
+The matrix is full rank (verified with Matlab), the system is thus fully controllable.\par
+As seen on matrix B, we need only one actuator. The first column of the $B$ matrix represents the wind, while the second one concerns the damper. This latter is indeed the only controllable input and contains two non-zero elements. As a result, only one actuator is needed, and acts on two states, the speed of the building and the speed of the damper, as they take place on $x_2$ and $x_4$.

@@ -1,13 +1,14 @@
-################
-# System files #
-################
+##########
+# System #
+##########
 
+# macOS
 .DS_Store
 
 
-#################
-# Project files #
-#################
+#############
+# Resources #
+#############
 
 **/resources/
 !**/latex/resources/

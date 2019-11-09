@@ -1,0 +1,25 @@
+\subsection{Observer}
+We need to compute the gain matrix $L$ :
+$$
+L = \begin{pmatrix}
+    l_1\\
+    l_2\\
+    l_3\\
+    l_4
+\end{pmatrix}
+$$
+The new dynamic matrix is given by $A_{obs} = A - LC$.\par
+As previously, we will keep the same two dominant eigenvalues and determine the two other via the same method we have used for $K$.\par
+Imposing that $(s - \lambda_1)(s - \lambda_2)$ is part of the decomposition, we get that the determinant of $A_{obs}$ is equal to :
+$$
+(s - \lambda_1)(s - \lambda_2)(s^2 + 2 \xi\omega_c s + \omega_c^2) = 0
+$$
+Since $\lambda_1$ and $\lambda_2$ are fixed, we only need to solve the equation of the second degree in $s$ in order to find the expressions of $\lambda_3$ and $\lambda_4$ as a function of $\xi$ and $\omega_c$.\par
+The solutions of the equation are given by :
+$$
+\begin{cases}
+    \lambda_3 = -\xi\omega_c - \omega_c\sqrt{\xi^2 - 1}\\
+    \lambda_4 = -\xi\omega_c + \omega_c\sqrt{\xi^2 - 1}
+\end{cases}
+$$
+As for the $K$ matrix, the values of $\xi$ and $\omega_c$ will be determined by simulations in the following sections. When these have been fixed, we will obtain the values of the 4 poles of $A_{obs}$ and will use the \texttt{place} function of Matlab to obtain the values $l_i$ of matrix $L$ associated with the eigenvalues.
