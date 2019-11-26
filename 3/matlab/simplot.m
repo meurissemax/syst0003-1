@@ -19,24 +19,23 @@ function simplot(x, y, x_label, y_label, plot_legend)
     ax_fontsize = 12;
     legend_fontsize = 14;
     
-    colors = {{'r'}, {'b', 'g'}};
+    colors = ['b', 'g'];
     
     
     %% Subplots
     
     for i = 1:length(y)
-        subplot(length(y), 1, i);
-        
-        hold on
+        if length(y) > 2 && mod(length(y), 2) == 0
+            subplot(length(y) / 2, length(y) / 2, i);
+        else
+            subplot(length(y), 1, i);
+        end
         
         % Plot data
+        hold on
+        
         for j = 1:length(y{i})
-            plot( ...
-            x, ...
-            y{i}{j}, ...
-            'LineWidth', plot_linewidth, ...
-            'Color', colors{mod(i, length(colors) + 1)}{mod(j, length(colors{i}) + 1)} ...
-            );
+            plot(x, y{i}{j}, 'LineWidth', plot_linewidth, 'Color', colors(mod(j, length(y{i}) + 1)));
         end
         
         hold off

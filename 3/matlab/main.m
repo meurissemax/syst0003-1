@@ -25,124 +25,131 @@ A = [
     k(2)/m(2), c(2)/m(2), -k(2)/m(2), -c(2)/m(2)
     ];
 B = [0, 0; 1/m(1), -1/m(1); 0, 0; 0, 1/m(2)];
-C = [1, 0, 0, 0];
-D = [0, 0];
+C = eye(4);
+D = [0, 0; 0, 0; 0, 0; 0, 0];
 
 % System
 sys = ss(A, B, C, D);
 
 
+%% Controller variables
+
+% Poles of A
+p = sort(eig(A), 'descend');
+
+% Xi and Omega
+xi = zeros(1, 2);
+w_c = zeros(1, 2);
+
+
 %% State feedback controller design
 
 % Modifiable parameters
-xi_ctrl = 0.7;
-w_c_ctrl = 10;
+xi(1) = 0.7;
+w_c(1) = 10;
 
 % Get poles of K
-p = sort(eig(A), 'descend');
 p_ctrl = [
     p(1), ...
     p(2), ...
-    (-xi_ctrl * w_c_ctrl) - (w_c_ctrl * sqrt(xi_ctrl * xi_ctrl - 1)), ...
-    (-xi_ctrl * w_c_ctrl) + (w_c_ctrl * sqrt(xi_ctrl * xi_ctrl - 1)) ...
+    (-xi(1) * w_c(1)) - (w_c(1) * sqrt(xi(1) * xi(1) - 1)), ...
+    (-xi(1) * w_c(1)) + (w_c(1) * sqrt(xi(1) * xi(1) - 1)) ...
     ];
 
 % Get K matrix
-K = place(A, B, p_ctrl);
-K(1, :) = 0;
+K = place(A, B(:, 2), p_ctrl);
+
+% Controlled system
+sys_ctrl = ss(A - B(:, 2) * K, B, C, D);
 
 
 %% Observer design
 
 % Modifiable parameters
-xi_obs = xi_ctrl;
-w_c_obs = 10 * w_c_ctrl;
+xi(2) = xi(1);
+w_c(2) = 10 * w_c(1);
 
 % Get poles of L
 p_obs = [
     p(1), ...
     p(2), ...
-    (-xi_obs * w_c_obs) - (w_c_obs * sqrt(xi_obs * xi_obs - 1)), ...
-    (-xi_obs * w_c_obs) + (w_c_obs * sqrt(xi_obs * xi_obs - 1)) ...
+    (-xi(2) * w_c(2)) - (w_c(2) * sqrt(xi(2) * xi(2) - 1)), ...
+    (-xi(2) * w_c(2)) + (w_c(2) * sqrt(xi(2) * xi(2) - 1)), ...
     ];
 
 % Get L matrix
 L = place(A', C', p_obs)';
 
-
-%% Controlled system design
-
-A_ctrl = [
-    A - B * K, B * K;
-    zeros(size(A)), A - L * C
-    ];
-B_ctrl = [B; zeros(size(B))];
-C_ctrl = [C; zeros(size(C))];
-
-sys_ctrl = ss(A_ctrl, B_ctrl, C_ctrl, D);
+% Observer system
+sys_obs = ss(A - L * C, B, C, D);
 
 
 %% Simulations
 
-% Modifiable parameters
-t = transpose(0:0.1:15); % s
+% Wind force
+F_max = 7350000; % N
 
-building = [250, 40]; % m
-rho = 1.2; % kg/m^3
-wind_speed = 35; % m/s
-
-% Derived parameters
-area = building(1, 1) * building(1, 2); % m^2
-F_max = 0.5 * rho * wind_speed * wind_speed * area; % N
+% Time
+t = 0:0.01:15; % s
 
 % Controllable input
 u(1:length(t), 1) = 0;
 
 % Uncontrollable input
 F_cst(1:length(t), 1) = F_max;
-F_sin = F_max * sin(2 * pi * t);
+F_sin = F_max * sin(2 * pi * t');
 F_rand = F_max * rand(length(t), 1);
 
-% Simulation (constant force)
-[y, ~, ~] = lsim(sys, [F_cst, u], t);
-[y_ctrl, ~, ~] = lsim(sys_ctrl, [F_cst, u], t);
+F = F_cst;
 
-figure;
+% Open loop system
+[y, ~, ~] = lsim(sys, [F, u], t);
+
+% Controller
+[y_ctrl, ~, ~] = lsim(sys_ctrl, [F, u], t);
+
+% Observer
+[y_obs, ~, ~] = lsim(sys_obs, [F, u], t);
+
+
+%% Plot simulations
+
+% Controller
+figure('units', 'normalized', 'outerposition', [0 0 1 1]);
 simplot( ...
     t, ...
-    {{F_cst}, {y, y_ctrl}}, ...
+    {{F}, {y(:, 1), y_ctrl(:, 1)}}, ...
     'Time (s)', ...
     {'Amplitude (N)', 'Displacement (m)'}, ...
-    {'Wind force', {'Natural oscillations', 'Controlled oscillations'}} ...
+    {{'Wind force'}, {'Natural oscillations', 'Controlled oscillations'}} ...
 );
 
-% Simulation (sinusoidal force)
-[y, ~, ~] = lsim(sys, [F_sin, u], t);
-[y_ctrl, ~, ~] = lsim(sys_ctrl, [F_sin, u], t);
-
-figure;
+% Observer
+figure('units', 'normalized', 'outerposition', [0 0 1 1]);
 simplot( ...
     t, ...
-    {{F_sin}, {y, y_ctrl}}, ...
+    {
+        {y_ctrl(:, 1), y_obs(:, 1)}, ...
+        {y_ctrl(:, 2), y_obs(:, 2)}, ...
+        {y_ctrl(:, 3), y_obs(:, 3)}, ...
+        {y_ctrl(:, 4), y_obs(:, 4)} ...
+    }, ...
     'Time (s)', ...
-    {'Amplitude (N)', 'Displacement (m)'}, ...
-    {'Wind force', {'Natural oscillations', 'Controlled oscillations'}} ...
-);
-
-% Simulation (random force)
-[y, ~, ~] = lsim(sys, [F_rand, u], t);
-[y_ctrl, ~, ~] = lsim(sys_ctrl, [F_rand, u], t);
-
-figure;
-simplot( ...
-    t, ...
-    {{F_rand}, {y, y_ctrl}}, ...
-    'Time (s)', ...
-    {'Amplitude (N)', 'Displacement (m)'}, ...
-    {'Wind force', {'Natural oscillations', 'Controlled oscillations'}} ...
+    {
+        'Displacement (building) (m)', ...
+        'Speed (building) (m/s)', ...
+        'Displacement (damper) (m)', ...
+        'Speed (damper) (m/s)'
+    }, ...
+    {
+        {'Real state', 'Approximated state'}, ...
+        {'Real state', 'Approximated state'}, ...
+        {'Real state', 'Approximated state'}, ...
+        {'Real state', 'Approximated state'} ...
+    } ...
 );
 
 
 %% Clear workspace
 
-%clearvars -except f m k c sys xi w_c K sys_ctrl F_max
+clearvars -except f m k c sys xi w_c K sys_ctrl L sys_obs

@@ -3,7 +3,7 @@
 ##########
 
 # macOS
-.DS_Store
+*.DS_Store
 
 
 #############
@@ -12,3 +12,11 @@
 
 **/resources/
 !**/latex/resources/
+
+
+#####################
+# Matlab & Simulink #
+#####################
+
+**/slprj/
+*.slxc
