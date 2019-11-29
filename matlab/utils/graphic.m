@@ -1,6 +1,6 @@
 %% Linear control systems
 %
-% Homework 3 - Controller in time domain
+% Study of an active mass damper
 % Master in Civil Engineering
 % University of Liège - Academic year 2019-2020
 %
@@ -9,21 +9,20 @@
 %   Maxime MEURISSE
 %   Valentin VERMEYLEN
 
-%% Function simplot
+%% Function graphic
 
-function simplot(x, y, x_label, y_label, plot_legend)
-    %% Parameters
+function graphic(x, y, x_label, y_label, plot_legend)
+    % Initialize figure
+    figure('units', 'normalized', 'outerposition', [0 0 1 1]);
     
+    % Parameters
     plot_linewidth = 2;
     label_fontsize = 16;
     ax_fontsize = 12;
     legend_fontsize = 14;
+    colors = ['b', 'g', 'r', 'c', 'm'];
     
-    colors = ['b', 'g'];
-    
-    
-    %% Subplots
-    
+    % Subplots
     for i = 1:length(y)
         if length(y) > 2 && mod(length(y), 2) == 0
             subplot(length(y) / 2, length(y) / 2, i);
@@ -47,6 +46,7 @@ function simplot(x, y, x_label, y_label, plot_legend)
         % Axes options
         ax = gca;
         ax.FontSize = ax_fontsize;
+        ax.YAxis.Exponent = 0;
 
         % Legend
         legend(plot_legend{i}, 'Location', 'northeast', 'FontSize', legend_fontsize);

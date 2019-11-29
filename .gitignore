@@ -6,17 +6,20 @@
 *.DS_Store
 
 
-#############
-# Resources #
-#############
+###########
+# Project #
+###########
 
-**/resources/
-!**/latex/resources/
+# Feedback
+/feedbacks/
+
+# Resources
+/resources/
 
 
-#####################
-# Matlab & Simulink #
-#####################
+##############
+# Exceptions #
+##############
 
-**/slprj/
-*.slxc
+# LaTeX resources
+!/latex/**/resources/
