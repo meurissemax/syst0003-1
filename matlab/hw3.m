@@ -35,8 +35,8 @@ k_r = 1;
 %% State feedback controller design
 
 % Pole placement
-xi(1) = 0.5;
-w_c(1) = 5;
+xi(1) = 0.8;
+w_c(1) = 10;
 
 % Get poles of K
 p_ctrl = [
@@ -48,9 +48,7 @@ p_ctrl = [
 
 % Get K matrix
 K = place(A, B(:, 2), p_ctrl);
-
-% Controlled system
-ctrl = ss(A - B(:, 2) * K, [B(:, 1), B(:, 2) * k_r], C, D);
+K = [zeros(1, length(K)); K];
 
 
 %% Observer design
@@ -76,14 +74,16 @@ obs = ss(A - L * C, [B, L], C, zeros(4, 6));
 
 %% Simulations
 
-% Open loop system
-[y, ~, ~] = lsim(ol, [d, u], t, x0);
+% Simulate time response of the system (with Simulink)
+out = sim('smlnk_hw3.slx', t);
 
-% Controller
-[y_ctrl, ~, ~] = lsim(ctrl, [d, r], t, x0);
+d = out.yout{1}.Values.Data;
+d = utils.disturbance(d, t);
 
-% Observer
-[y_obs, ~, ~] = lsim(obs, [d, r, y_ctrl], t, x0 .* rand(1, 4));
+y = out.yout{2}.Values.Data;
+y_ctrl = out.yout{3}.Values.Data;
+y_obs = out.yout{4}.Values.Data;
+
 
 %% Plot simulations
 
@@ -136,4 +136,4 @@ utils.graphic( ...
 
 %% Clear workspace
 
-clearvars -except x0 p r u d ol wp xi w_c k_r K ctrl L obs;
+clearvars -except x0 p r u d ol wp xi w_c k_r K L obs;

@@ -21,8 +21,13 @@ ol = ss(A, B, C, D);
 
 %% Simulations
 
-% Simulate time response of the system
-[y, ~, ~] = lsim(ol, [d, u], t);
+% Simulate time response of the system (with Simulink)
+out = sim('smlnk_hw2.slx', t);
+
+d = out.yout{1}.Values.Data;
+d = utils.disturbance(d, t);
+
+y = out.yout{2}.Values.Data;
 
 % Plot first state
 utils.graphic( ...
@@ -70,4 +75,4 @@ disp(unco + " uncontrollable state(s)");
 
 %% Clear irrelevant variables
 
-clearvars -except x0 p u d ol;
+clearvars -except p ol Ob Co;

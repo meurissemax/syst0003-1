@@ -17,6 +17,14 @@
 /resources/
 
 
+#####################
+# Matlab & Simulink #
+#####################
+
+matlab/**/slprj/
+matlab/*.slxc
+
+
 ##############
 # Exceptions #
 ##############

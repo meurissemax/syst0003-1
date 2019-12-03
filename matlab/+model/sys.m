@@ -17,6 +17,9 @@ names = {'Building', 'Building', 'Damper', 'Damper'};
 % Types of the states
 types = {'Displacement (m)', 'Speed (m/s)', 'Displacement (m)', 'Speed (m/s)'};
 
+% Limits for damper states
+limits = [5, -5; 5, -5];
+
 
 %% State-space representation
 
@@ -39,27 +42,13 @@ p = eig(A);
 
 %% Reference
 
-r = zeros(length(t), 1);
+r = 0;
 
 
-%% Controllable input
+%% Inputs
 
-u = zeros(length(t),  1);
+% Controllable input
+u = 0;
 
-
-%% Uncontrollable input (wind)
-
-% Maximal amplitude (N)
-F_max = 0.6 * power(speed, 2) * width * height;
-
-% Constant wind force
-F_cst = F_max * ones(length(t), 1);
-
-% Sinusoidal wind force
-F_sin = F_max * sin(2 * pi * t);
-
-% Random wind force
-F_rand = F_max * rand(length(t), 1);
-
-% Disturbance to study
-d = F_cst;
+% Uncontrollable input (wind force)
+F_max = 0.6 * power(speed, 2) * width * height; % N

@@ -11,14 +11,17 @@
 
 %% Initialization
 
-% Get parameters
-utils.param;
-
-% Get system
-utils.sys;
-
 % Close all opened figures
 close all;
 
+% Add path to Simulink files
+addpath('simulink/');
+
+% Get parameters
+model.param;
+
+% Get system
+model.sys;
+
 % Clear irrelevant variables
-clearvars -except t x0 names types A B C D p r u d;
+clearvars -except t x0 names types limits A B C D p r u F_max;
