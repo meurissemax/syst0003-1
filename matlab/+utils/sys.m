@@ -37,6 +37,11 @@ D = zeros(4, 2);
 p = eig(A);
 
 
+%% Reference
+
+r = zeros(length(t), 1);
+
+
 %% Controllable input
 
 u = zeros(length(t),  1);

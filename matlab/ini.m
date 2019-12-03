@@ -11,17 +11,14 @@
 
 %% Initialization
 
-% Add 'utils' folder to path
-addpath('utils/');
-
 % Get parameters
-param;
+utils.param;
 
 % Get system
-sys;
+utils.sys;
 
 % Close all opened figures
 close all;
 
 % Clear irrelevant variables
-clearvars -except t r x0 names types A B C D p u d;
+clearvars -except t x0 names types A B C D p r u d;
