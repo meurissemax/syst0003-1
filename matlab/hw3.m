@@ -28,9 +28,6 @@ wp = utils.weak(p);
 xi = zeros(1, 2);
 w_c = zeros(1, 2);
 
-% k_r
-k_r = 1;
-
 
 %% State feedback controller design
 
@@ -49,6 +46,9 @@ p_ctrl = [
 % Get K matrix
 K = place(A, B(:, 2), p_ctrl);
 K = [zeros(1, length(K)); K];
+
+% k_r
+k_r = -1 / (C(1, :) * ((A - B(:, 2) * K(2, :)) \ B(:, 1)));
 
 
 %% Observer design
