@@ -30,8 +30,8 @@ A = [
     k(2)/m(2), c(2)/m(2), -k(2)/m(2), -c(2)/m(2)
     ];
 B = [0, 0; 1/m(1), -1/m(1); 0, 0; 0, 1/m(2)];
-C = eye(4);
-D = zeros(4, 2);
+C = [1, 0, 0, 0];
+D = [0, 0];
 
 
 %% Dynamic of the system
@@ -42,13 +42,20 @@ p = eig(A);
 
 %% Reference
 
-r = 0;
+r = [t', zeros(length(t), 1)];
 
 
 %% Inputs
 
-% Controllable input
-u = 0;
+% Controllable input (force on mass damper)
+u = [t', zeros(length(t), 1)];
 
 % Uncontrollable input (wind force)
 F_max = 0.6 * power(speed, 2) * width * height; % N
+
+F_zero = [t', zeros(length(t), 1)];
+F_cst = [t', F_max * ones(length(t), 1)];
+F_sin = [t', F_max * sin(2 * pi * t')];
+F_rand = [t', F_max * rand(length(t), 1)];
+
+d = F_cst;

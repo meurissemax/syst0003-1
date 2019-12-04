@@ -24,4 +24,4 @@ model.param;
 model.sys;
 
 % Clear irrelevant variables
-clearvars -except t x0 names types limits A B C D p r u F_max;
+clearvars -except t x0 names types limits A B C D p r u d;

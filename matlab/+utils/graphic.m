@@ -11,16 +11,17 @@
 
 %% Function graphic
 
-function graphic(x, y, x_label, y_label, plot_legend)
-    % Initialize figure
-    figure('units', 'normalized', 'outerposition', [0 0 1 1]);
-    
+function graphic(x, y, x_label, y_label, plot_legend, fig_name)
     % Parameters
-    plot_linewidth = 2;
-    label_fontsize = 16;
-    ax_fontsize = 12;
-    legend_fontsize = 14;
+    set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+    set(groot, 'defaultLegendInterpreter', 'latex');
+    
+    pt = 12; % font size
+    lw = 1.5; % line width
     colors = ['b', 'g', 'r', 'c', 'm'];
+    
+    % Initialize figure
+    figure;
     
     % Subplots
     for i = 1:length(y)
@@ -34,24 +35,31 @@ function graphic(x, y, x_label, y_label, plot_legend)
         hold on
         
         for j = 1:length(y{i})
-            plot(x, y{i}{j}, 'LineWidth', plot_linewidth, 'Color', colors(mod(j, length(y{i}) + 1)));
+            plot(x, y{i}{j}, 'LineWidth', lw, 'Color', colors(mod(j, length(y{i}) + 1)));
         end
         
         hold off
         
         % Axes
-        xlabel(x_label, 'FontSize', label_fontsize);
-        ylabel(y_label{i}, 'FontSize', label_fontsize);
+        xlabel(x_label, 'interpreter', 'latex');
+        ylabel(y_label{i}, 'interpreter', 'latex');
+        
+        % Legend
+        legend(plot_legend{i}, 'Location', 'northeast');
 
         % Axes options
         ax = gca;
-        ax.FontSize = ax_fontsize;
+        ax.FontSize = pt;
         ax.YAxis.Exponent = 0;
-
-        % Legend
-        legend(plot_legend{i}, 'Location', 'northeast', 'FontSize', legend_fontsize);
 
         % Others
         grid on
+        box off
     end
+    
+    % Export figure
+    set(gcf, 'PaperPositionMode', 'auto');
+    set(gcf, 'PaperUnits', 'centimeters');
+    
+    print(gcf, strcat('figures/', fig_name), '-depsc')
 end

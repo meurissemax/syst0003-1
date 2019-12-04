@@ -16,7 +16,8 @@ ini;
 
 %% Open loop system
 
-ol = ss(A, B, C, D);
+% We change C and D matrices in order to have the four states as ouput
+ol = ss(A, B, eye(size(A, 1)), zeros(size(A, 1), size(B, 2)));
 
 
 %% Variables
@@ -25,15 +26,11 @@ ol = ss(A, B, C, D);
 wp = utils.weak(p);
 
 % Xi and Omega
-xi = zeros(1, 2);
-w_c = zeros(1, 2);
+xi = [0.8, 0.8];
+w_c = [5, 10 * 5];
 
 
 %% State feedback controller design
-
-% Pole placement
-xi(1) = 0.8;
-w_c(1) = 10;
 
 % Get poles of K
 p_ctrl = [
@@ -45,22 +42,17 @@ p_ctrl = [
 
 % Get K matrix
 K = place(A, B(:, 2), p_ctrl);
-K = [zeros(1, length(K)); K];
 
-% k_r
-k_r = -1 / (C(1, :) * ((A - B(:, 2) * K(2, :)) \ B(:, 1)));
+% Get static gain
+k_r = -1 / (C * ((A - B(:, 2) * K) \ B(:, 2)));
 
 
 %% Observer design
 
-% Pole placement
-xi(2) = xi(1);
-w_c(2) = 10 * w_c(1);
-
 % Get poles of L (add delays to original poles)
 p_obs = [
-    real(wp(1)) * 10 + imag(wp(1)) * 1i, ...
-    real(wp(2)) * 10 + imag(wp(2)) * 1i, ...
+    real(wp(1)) * 5 + imag(wp(1)) * 1i, ...
+    real(wp(2)) * 5 + imag(wp(2)) * 1i, ...
     (-xi(2) * w_c(2)) - (w_c(2) * sqrt(xi(2) * xi(2) - 1)), ...
     (-xi(2) * w_c(2)) + (w_c(2) * sqrt(xi(2) * xi(2) - 1)), ...
     ];
@@ -68,21 +60,15 @@ p_obs = [
 % Get L matrix
 L = place(A', C', p_obs)';
 
-% Observer system
-obs = ss(A - L * C, [B, L], C, zeros(4, 6));
-
 
 %% Simulations
 
 % Simulate time response of the system (with Simulink)
 out = sim('smlnk_hw3.slx', t);
 
-d = out.yout{1}.Values.Data;
-d = utils.disturbance(d, t);
-
-y = out.yout{2}.Values.Data;
-y_ctrl = out.yout{3}.Values.Data;
-y_obs = out.yout{4}.Values.Data;
+y = out.yout{1}.Values.Data;
+y_ctrl = out.yout{2}.Values.Data;
+y_obs = out.yout{3}.Values.Data;
 
 
 %% Plot simulations
@@ -90,7 +76,7 @@ y_obs = out.yout{4}.Values.Data;
 % Controller
 utils.graphic( ...
     t, ...
-    {{d}, {y(:, 1), y_ctrl(:, 1)}}, ...
+    {{d(:, 2)}, {y(:, 1), y_ctrl(:, 1)}}, ...
     'Time (s)', ...
     {'Amplitude (N)', types{1}}, ...
     {
@@ -99,7 +85,8 @@ utils.graphic( ...
             strcat(names{1}, ' (natural oscillations)'), ...
             strcat(names{1}, ' (controlled oscillations)')
         }
-    } ...
+    }, ...
+    'hw3-controller' ...
 );
 
 % Observer
@@ -130,10 +117,11 @@ utils.graphic( ...
             strcat(names{4}, ' (real)'), ...
             strcat(names{4}, ' (observer)')
         }
-    } ...
+    }, ...
+    'hw3-observer' ...
 );
 
 
 %% Clear workspace
 
-clearvars -except x0 p r u d ol wp xi w_c k_r K L obs;
+clearvars -except p ol K k_r L

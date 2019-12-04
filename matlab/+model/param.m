@@ -15,14 +15,14 @@
 f = 1;
 
 % Masses of the building and damper (kg)
-m = [1e+6, 3e+3];
+m = [1e+7, 3e+3];
 
 % Stiffnesses and viscosities of the building and damper (N/m)
 k = [power((2 * pi * f), 2) * m(1), 1e5];
 c = [0.04 * m(1) * pi * f, 1e4];
 
 % Building dimensions (m)
-width = 250;
+width = 200;
 height = 30;
 
 % Wind speed (m/s)
@@ -35,4 +35,4 @@ speed = 15;
 t = 0:0.01:15;
 
 % Initial conditions
-x0 = [0.2, 1, 0.2, 1];
+x0 = [0, 0, 0, 0];

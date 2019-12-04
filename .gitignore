@@ -21,6 +21,8 @@
 # Matlab & Simulink #
 #####################
 
+matlab/figures/
+
 matlab/**/slprj/
 matlab/*.slxc
 
