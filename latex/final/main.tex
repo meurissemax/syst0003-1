@@ -16,7 +16,7 @@
 
 \def\logopath{resources/pdf/logo-uliege.pdf}
 \def\toptitle{University of Liège}
-\title{Active mass damper}
+\title{Study of an active mass damper}
 \def\subtitle{Linear control systems}
 %\def\authorhead{Author}
 \author{
@@ -44,33 +44,20 @@
     % ----- Table of contents ----- %
     \romantableofcontents
     
-    % ----- Homework 1 : Motivation and control problem ----- %
-    \section{Motivation and control problem}
-    \input{sections/hw_1/1_context.tex}
-    \input{sections/hw_1/2_control_problem_diagram.tex}
-    \input{sections/hw_1/3_control_problem_description.tex}
+    % ----- Control problem ----- %
+    \input{sections/1_control_problem.tex}
     
-    % ----- Homework 2 : Open loop system ----- %
-    \section{Open loop system}
-    \input{sections/hw_2/1_detailed_schematic.tex}
-    \input{sections/hw_2/2_constraints.tex}
-    \input{sections/hw_2/3_state_space.tex}
-    \input{sections/hw_2/4_simulations.tex}
-    \input{sections/hw_2/5_analysis.tex}
+    % ----- State-space representation ----- %
+    \input{sections/2_state_space_representation.tex}
     
-    % ----- Homework 3 : Controller in time domain ----- %
-    \section{Controller in time domain}
-    \input{sections/hw_3/1_state_feedback.tex}
-    \input{sections/hw_3/2_observer.tex}
-    \input{sections/hw_3/3_constraints.tex}
-    \input{sections/hw_3/4_simulations.tex}
+    % ----- Controller in time domain ----- %
+    \input{sections/3_controller_time_domain.tex}
     
-    % ----- Homework 4 : Frequency domain ----- %
-    \section{Frequency domain}
-    \input{sections/hw_4/1_constraints.tex}
-    \input{sections/hw_4/2_loop_shaping.tex}
-    \input{sections/hw_4/3_gang_four.tex}
-    \input{sections/hw_4/4_delays.tex}
+    % ----- Controller in frequency domain ----- %
+    \input{sections/4_controller_frequency_domain.tex}
+    
+    % ----- Conclusion ----- %
+    \input{sections/5_conclusion.tex}
     
     % ----- References ----- %
     \newpage

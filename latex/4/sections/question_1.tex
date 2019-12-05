@@ -1,2 +1,47 @@
 \subsection{Framework}
-Our model has not been updated.
+For this part of the work, we have decided to simplify our system and use 2 states instead of 4. The position and speed of the damper are therefore hidden in the force of the actuator, which is still the controllable input of our system.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{resources/png/simplified-system.png}
+    \caption{Simplified system of an active mass damper}
+    \label{fig:simplified-system}
+\end{figure}
+The law that governs that system is the following : 
+$$
+m_{tot}\ddot{x} + c\dot{x} + kx = F_{wind} + F_{damper}
+$$
+where
+\begin{itemize}
+    \item $F_{damper} = m_{damper}a_{damper}$
+    \item $m_{tot} = m_{building} + m_{damper}$
+    \item $x$ is the position of the building relative to its rest position ($x = 0$)
+\end{itemize}
+Let's now define the input, output and states : 
+\begin{itemize}
+    \item $u_1 = F_{wind}$
+    \item $u_2 = F_{damper}$
+    \item $x_1 = x$
+    \item $x_2 = \dot{x}$
+    \item $y = x_1$ 
+\end{itemize}
+By doing so, our ABCD matrices are the following :
+$$
+A = \begin{pmatrix}
+    0 & 1\\
+    \dfrac{-k}{m_{tot}} & \dfrac{-c}{m_{tot}}\\
+\end{pmatrix}
+\quad
+B = \begin{pmatrix}
+    0 & 0\\
+    \dfrac{1}{m_{tot}} & \dfrac{1}{m_{tot}}\\
+\end{pmatrix}
+$$
+$$
+C = \begin{pmatrix}
+    1 & 0\\
+\end{pmatrix}
+\quad
+D = \begin{pmatrix}
+    0 & 0\\
+\end{pmatrix}
+$$

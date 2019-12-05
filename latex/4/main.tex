@@ -33,12 +33,19 @@
 
 \fancyhead[R]{}
 \renewcommand{\thesubsection}{\arabic{subsection}}
+\addbibresource{references.bib}
+\defbibheading{bibliography}[\refname]{}
 
 %%%%%%%%%%%%%%%%%%% Document
 
 \begin{document}
     % ----- Titlepage ----- %
     \input{include/titlepages/default.tex}
+    
+     % ----- Remark ----- %
+    \begin{rmk}
+        This report is in the state in which we delivered it at the homework deadline. Changes and corrections were made in the final report.
+    \end{rmk}
     
     % ----- Question 1 ----- %
     \input{sections/question_1.tex}
@@ -54,4 +61,10 @@
     
     % ----- Question 5 ----- %
     \input{sections/question_5.tex}
+    
+    % ----- References ----- %
+    \newpage
+    \subsection{References}
+    \nocite{*}
+    \printbibliography
 \end{document}

@@ -4,10 +4,10 @@ To simulate the system (without control mechanism), we choose a series of numeri
     \centering
     \begin{tabular}{|l|c|c|}
         \hline
-        {\bf Mass} & $m_1 = \SI{1e8}{\kilogram}$ & $m_2 = \SI{1e3}{\kilogram}$\\ \hline
-        {\bf Spring} & $k_1 \approx \SI{4e9}{\newton/\meter}$ & $k_2 = \SI{e5}{\newton/\meter}$\\ \hline
-        {\bf Damper} & $c_1 \approx \SI{1.3e7}{\newton\second/\meter}$ & $c_2 = \SI{e4}{\newton\second/\meter}$\\ \hline
-        {\bf Wind} & \multicolumn{2}{c|}{$F_{max} = \SI{7.35e6}{\newton}$}\\ \hline
+        {\bf Mass} & $m_1 = \SI{1e7}{\kilogram}$ & $m_2 = \SI{3e3}{\kilogram}$\\ \hline
+        {\bf Spring} & $k_1 \approx \SI{4e8}{\newton/\meter}$ & $k_2 = \SI{e5}{\newton/\meter}$\\ \hline
+        {\bf Damper} & $c_1 \approx \SI{1.3e6}{\newton\second/\meter}$ & $c_2 = \SI{e4}{\newton\second/\meter}$\\ \hline
+        {\bf Wind} & \multicolumn{2}{c|}{$F_{max} = \SI{810000}{\newton}$}\\ \hline
     \end{tabular}
     \caption{Numerical values of the system}
     \label{tab:numerical_values}
@@ -30,28 +30,28 @@ The maximum wind force, on the other hand, was approximated by
 with
 \begin{itemize}
     \item $\rho \approx \SI{1.2}{\kilogram/\meter\cubed}$, the air density;
-    \item $v = \SI{35}{\meter/\second}$, the wind speed;
-    \item $A = 250\times 40 = \SI{10000}{\meter\squared}$, the area of one side of the building.
+    \item $v = \SI{15}{\meter/\second}$, the wind speed;
+    \item $A = 200\times 30 = \SI{6000}{\meter\squared}$, the area of one side of the building.
 \end{itemize}
 \subsubsection{Simulation results}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.495\textwidth}
-        \includegraphics[width=\textwidth]{resources/pdf/initial.pdf}
+        \includegraphics[width=\textwidth]{resources/eps/initial-condition.eps}
         \caption{Initial conditions}
         \label{fig:q4.initial}
     \end{subfigure}
     \begin{subfigure}{0.495\textwidth}
-        \includegraphics[width=\textwidth]{resources/pdf/constant.pdf}
+        \includegraphics[width=\textwidth]{resources/eps/constant-wind.eps}
         \caption{Constant wind force}
         \label{fig:q4.constant}
     \end{subfigure}
     \begin{subfigure}{0.495\textwidth}
-        \includegraphics[width=\textwidth]{resources/pdf/sinusoidal.pdf}
+        \includegraphics[width=\textwidth]{resources/eps/sinusoidal-wind.eps}
         \caption{Sinusoidal wind force}
     \end{subfigure}
     \begin{subfigure}{0.495\textwidth}
-        \includegraphics[width=\textwidth]{resources/pdf/random.pdf}
+        \includegraphics[width=\textwidth]{resources/eps/random-wind.eps}
         \caption{Random wind force}
     \end{subfigure}
     \noskipcaption{Simulation results}

@@ -5,7 +5,24 @@ We have the following constraints :
     \item Power injected in the mass of below \SI{10}{\kilo\watt} so as to not have too much electrical consumption.
     \item Lateral movement of the top of the building not above \SI{1}{\meter}.
 \end{itemize}
-The scenario we look at is the following : 
-A turbulent wind of maximum \SI{7.35}{\mega\newton}, that we represented as a sine function.
+The two scenario we look at are the following : a turbulent wind of maximum \SI{810}{\kilo\newton}, that we represented as a sine function and a constant wind of the same intensity.\par
+Here are the values of the different parameters we have chosen : 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|}
+        \hline
+        {\bf Mass} & $m_{building} = \SI{1e7}{\kilogram}$ & $m_{damper} = \SI{3e3}{\kilogram}$\\ \hline
+        {\bf Spring} & \multicolumn{2}{c|}{$k\approx\SI{4e8}{\newton\per\meter}$}\\ \hline
+        {\bf Damper} & \multicolumn{2}{c|}{$c\approx\SI{1.3e6}{\newton\second\per\meter}$}\\ \hline
+        {\bf Wind} & \multicolumn{2}{c|}{$F_{max} = \SI{810}{\kilo\newton}$}\\ \hline
+    \end{tabular}
+    \caption{Numerical values of the system}
+    \label{tab:numerical-values}
+\end{table}
+
+% Choice of cross-over frequency
 \subsubsection{Choice of cross-over frequency}
-The frequency of our damper is computed via : $f = \sqrt{\dfrac{k}{m}} \approx \SI{10}{\hertz}$. We will therefore use a crossover frequency of \SI{20}{\hertz}, so all frequencies above that, probably coming from noise and unwanted phenomena, will be attenuated, while the amplitudes of the frequencies below that, which correspond to the internals of our system, will be amplified.
+The frequency of our building is of about \SI{1}{\hertz}, as advised by Pr. Denoël, and the frequency of the sinusoidal wind we have decided to study is also of \SI{1}{\hertz}, so we have decided to use a cross-over frequency of \SI{5}{\hertz}. All frequencies above that, probably coming from noise and unwanted phenomena, will be attenuated, while the amplitudes of the frequencies below that, which correspond to the internals of our system, will be amplified.
+$$
+w_{co} = 2\pi f_{co} \approx \SI{30}{\radian\per\second}
+$$

@@ -12,22 +12,22 @@ $$
 The new dynamic matrix of the closed-loop system is $A_{CL} = A - BK$. Let's determine the eigenvalues of that matrix.\par
 As we have a matrix of dimension $4$, we will make the approximation of the dominant poles. Indeed, we have, from the previous matrix $A$, the eigenvalues :
 \begin{align*}
-    \lambda_1 &= \num{-5 + 8.6603i}\\
-    \lambda_2 &= \num{-5 - 8.6603i}\\
-    \lambda_3 &= \num{-0.0628 + 6.2828i}\\
-    \lambda_4 &= \num{-0.0628 - 6.2828i}
+    \lambda_1 &= \num{-0.0645 + 6.2824i}\\
+    \lambda_2 &= \num{-0.0645 - 6.2824i}\\
+    \lambda_3 &= \num{-1.6655 + 5.5285i}\\
+    \lambda_4 &= \num{-1.6655 - 5.5285i}
 \end{align*}
-We can see that $\lambda_1$ and $\lambda_2$ are about $100$ times bigger than the last two, and so we do not need to work on them. Those two will therefore remain in $A_{CL}$.\par
-Imposing that $(s - \lambda_1)(s - \lambda_2)$ is part of the decomposition, we get that the determinant of $A_{CL}$ is equal to :
+We can see that $\lambda_3$ and $\lambda_4$ are about $100$ times bigger than the last two, and so we do not need to work on them. Those two will therefore remain in $A_{CL}$.\par
+Imposing that $(s - \lambda_3)(s - \lambda_4)$ is part of the decomposition, we get that the determinant of $A_{CL}$ is equal to :
 $$
-(s - \lambda_1)(s - \lambda_2)(s^2 + 2 \xi\omega_c s + \omega_c^2) = 0
+(s - \lambda_3)(s - \lambda_4)(s^2 + 2 \xi\omega_c s + \omega_c^2) = 0
 $$
-Since $\lambda_1$ and $\lambda_2$ are fixed, we only need to solve the equation of the second degree in $s$ in order to find the expressions of $\lambda_3$ and $\lambda_4$ as a function of $\xi$ and $\omega_c$.\par
+Since $\lambda_3$ and $\lambda_4$ are fixed, we only need to solve the equation of the second degree in $s$ in order to find the expressions of $\lambda_1$ and $\lambda_2$ as a function of $\xi$ and $\omega_c$.\par
 The solutions of the equation are given by :
 $$
 \begin{cases}
-    \lambda_3 = -\xi\omega_c - \omega_c\sqrt{\xi^2 - 1}\\
-    \lambda_4 = -\xi\omega_c + \omega_c\sqrt{\xi^2 - 1}
+    \lambda_1 = -\xi\omega_c - \omega_c\sqrt{\xi^2 - 1}\\
+    \lambda_2 = -\xi\omega_c + \omega_c\sqrt{\xi^2 - 1}
 \end{cases}
 $$
 The values of $\xi$ and $\omega_c$ will be determined by simulations in the following sections. When these have been fixed, we will obtain the values of the 4 poles of $A_{CL}$. Then we will just have to use the \texttt{place} function of Matlab to obtain the values $g_i$ of matrix $K$ associated with the eigenvalues.
