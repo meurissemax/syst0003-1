@@ -15,7 +15,7 @@
 f = 1;
 
 % Masses of the building and damper (kg)
-m = [1e+7, 3e+3];
+m = [1e+7, 3e+4];
 
 % Stiffnesses and viscosities of the building and damper (N/m)
 k = [power((2 * pi * f), 2) * m(1), 1e5];

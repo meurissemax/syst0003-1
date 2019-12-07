@@ -17,9 +17,6 @@ names = {'Building', 'Building', 'Damper', 'Damper'};
 % Types of the states
 types = {'Displacement (m)', 'Speed (m/s)', 'Displacement (m)', 'Speed (m/s)'};
 
-% Limits for damper states
-limits = [5, -5; 5, -5];
-
 
 %% State-space representation
 
@@ -42,7 +39,7 @@ p = eig(A);
 
 %% Reference
 
-r = [t', zeros(length(t), 1)];
+r = [t', 0 * ones(length(t), 1)];
 
 
 %% Inputs
