@@ -32,7 +32,7 @@ speed = 15;
 %% Simulations
 
 % Time (s)
-t = 0:0.01:15;
+t = 0:0.01:30;
 
 % Initial conditions
 x0 = [0, 0, 0, 0];

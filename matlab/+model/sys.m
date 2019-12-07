@@ -55,4 +55,4 @@ F_cst = [t', F_max * ones(length(t), 1)];
 F_sin = [t', F_max * sin(2 * pi * t')];
 F_rand = [t', F_max * rand(length(t), 1)];
 
-d = F_cst;
+d = F_sin;

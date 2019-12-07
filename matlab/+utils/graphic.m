@@ -17,6 +17,8 @@ function graphic(x, y, x_label, y_label, plot_legend, fig_name)
     set(groot, 'defaultLegendInterpreter', 'latex');
     
     pt = 12; % font size
+    ptx = 20; % width
+    pty = 12; % height
     lw = 1.5; % line width
     colors = ['b', 'g', 'r', 'c', 'm'];
     
@@ -45,7 +47,9 @@ function graphic(x, y, x_label, y_label, plot_legend, fig_name)
         ylabel(y_label{i}, 'interpreter', 'latex');
         
         % Legend
-        legend(plot_legend{i}, 'Location', 'northeast');
+        if ~isempty(plot_legend)
+            legend(plot_legend{i}, 'Location', 'northeast');
+        end
 
         % Axes options
         ax = gca;
@@ -60,6 +64,7 @@ function graphic(x, y, x_label, y_label, plot_legend, fig_name)
     % Export figure
     set(gcf, 'PaperPositionMode', 'auto');
     set(gcf, 'PaperUnits', 'centimeters');
+    set(gcf, 'PaperPosition', [0, 0, ptx, pty]);
     
     print(gcf, strcat('figures/', fig_name), '-depsc')
 end

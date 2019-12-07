@@ -25,46 +25,56 @@ ol = ss(A, B, eye(size(A, 1)), zeros(size(A, 1), size(B, 2)));
 % Get weak poles
 wp = utils.weak(p);
 
-% Xi and Omega
-xi = 0.8;
-w_c = 10;
-
-% Multiplicative constant for the observer
-alpha = 5;
+% Zeta and Omega values to test
+zeta = [0.2, 0.8, 1.3];
+w_c = [10, 100, 1000];
 
 % Multiplicative constant to reduce system rapidity
 reduce = 0.5;
 
+% Multiplicative constant for the observer
+alpha = 5;
+
+
+%% Choice of parameters Zeta and Omega
+
+u_ctrl = cell(1, length(zeta));
+u_legend = cell(1, length(zeta));
+
+% Simulate for multiple coupe of (zeta, w_c) values
+for i = 1:length(zeta)
+    [K, k_r] = utils.controller(wp, reduce, zeta(i), w_c(i), A, B, C); %#ok<ASGLU>
+    L = utils.observer(wp, reduce, alpha, zeta(i), w_c(i), A, C); %#ok<NASGU>
+    
+    out = sim('smlnk_hw3.slx', t);
+    
+    u_ctrl{i} = out.yout{1}.Values.Data;
+    u_legend{i} = strcat('$\zeta = ', num2str(zeta(i)), '$, $\omega_c = ', num2str(w_c(i)), '$');
+end
+
+% Plot simulation results
+utils.graphic( ...
+    t, ...
+    {u_ctrl}, ...
+    'Time (s)', ...
+    {'Amplitude (N)'}, ...
+    {u_legend}, ...
+    'hw3-zeta-omega' ...
+);
+
+% Final values chosen
+zeta = 0.8;
+w_c = 10;
+
 
 %% State feedback controller design
 
-%Get poles of K
-p_ctrl = [
-    real(wp(1)) * reduce + imag(wp(1)) * 1i, ...
-    real(wp(2)) * reduce + imag(wp(2)) * 1i, ...
-    (-xi * w_c) - (w_c * sqrt(xi * xi - 1)), ...
-    (-xi * w_c) + (w_c * sqrt(xi * xi - 1)) ...
-    ];
-
-% Get K matrix
-K = place(A, B(:, 2), p_ctrl);
-
-% Get static gain
-k_r = -1 / (C * ((A - B(:, 2) * K) \ B(:, 2)));
+[K, k_r] = utils.controller(wp, reduce, zeta, w_c, A, B, C);
 
 
 %% Observer design
 
-% Get poles of L (add delays to original poles)
-p_obs = [
-    real(wp(1)) * reduce * alpha + imag(wp(1)) * 1i, ...
-    real(wp(2)) * reduce * alpha + imag(wp(2)) * 1i, ...
-    (-xi * w_c * alpha) - (w_c * alpha * sqrt(xi * xi - 1)), ...
-    (-xi * w_c * alpha) + (w_c * alpha * sqrt(xi * xi - 1)), ...
-    ];
-
-% Get L matrix
-L = place(A', C', p_obs)';
+L = utils.observer(wp, reduce, alpha, zeta, w_c, A, C);
 
 
 %% Simulations
@@ -94,11 +104,11 @@ utils.graphic( ...
 % Controller
 utils.graphic( ...
     t, ...
-    {{d(:, 2)}, {y(:, 1), y_ctrl(:, 1)}}, ...
+    {{u_ctrl}, {y(:, 1), y_ctrl(:, 1)}}, ...
     'Time (s)', ...
     {'Amplitude (N)', types{1}}, ...
     {
-        'Wind force', ...
+        'Control input', ...
         {
             strcat(names{1}, ' (natural oscillations)'), ...
             strcat(names{1}, ' (controlled oscillations)')
