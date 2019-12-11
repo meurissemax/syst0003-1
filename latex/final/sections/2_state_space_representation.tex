@@ -1,4 +1,4 @@
-\section{State-space representation}
+\section{State-space representation}\label{state-space}
 
 % Open loop model description
 \subsection{Open loop model description}
@@ -20,7 +20,7 @@ $$
 \subsubsection{Inputs}
 \begin{itemize}
     \item $F_1(t)$, the force of the wind (uncontrollable), between \num{500} and \SI{1500}{\kilo\newton} (which corresponds to a wind speed of \num{10} to \SI{15}{\meter\per\second} on our building).
-    \item $u(t)$, the force applied on the mass damper (controllable), in the order of \SI{1000}{\kilo\newton}.
+    \item $u(t)$, the force applied on the mass damper (controllable), in the order of \SI{500}{\kilo\newton}.
 \end{itemize}
 The sensor considered is a measurement of the horizontal position of the top of the building relatively to the vertical position $d_1 = 0$.\par
 The actuator provides a force on the mass of the dampener ($u(t)$), sets it in motion.
@@ -30,10 +30,10 @@ $y = d_1(t)$ the relative position of the building with respect to the vertical 
 
 \subsubsection{States}
 \begin{itemize}
-    \item $x_1 = d_1$, as described above, ranging from a few millimeters to a few meters.
-    \item $x_2 = \dot d_1$, the speed of the building, ranging from about \num{0.1} to \SI{5}{\meter\per\second}.
-    \item $x_3 = d_2$, the relative displacement of the mass damper, ranging from a few millimeters to a few meters.
-    \item $x_4 = \dot d_2$, the speed of the mass damper, ranging from about \num{0.1} to \SI{10}{\meter\per\second}.
+    \item $x_1 = d_1$, as described above, ranging from a few millimeters to a few centimeters.
+    \item $x_2 = \dot d_1$, the speed of the building, ranging from about \num{0} to \SI{5}{\meter\per\second}.
+    \item $x_3 = d_2$, the relative displacement of the mass damper, ranging from about \num{0} to \SI{5}{\meter}.
+    \item $x_4 = \dot d_2$, the speed of the mass damper, ranging from about \num{0} to \SI{10}{\meter\per\second}.
 \end{itemize}
 
 \subsubsection{Output law}
@@ -95,15 +95,15 @@ The basic modeling constraints of our system are presented in table \ref{tab:con
 \end{table}
 
 \subsubsection{Constraints on signals}
-The constraints on the different signals of our system are presented in table \ref{tab:constraints_signals}.
+The constraints on the different signals of our system\footnote{Given by our common sense and computations for the uncontrollable input. The maximum value of the controllable input corresponds to an acceleration of $1.6g$.} are presented in table \ref{tab:constraints_signals}.
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|m{5cm}|}
+    \begin{tabular}{|l|m{8cm}|}
         \hline
-        {\bf Reference} & a few millimeters or even a few centimeters at most\\ \hline
-        {\bf Controllable input} & in the order of \SI{1000}{\kilo\newton}\\ \hline
+        {\bf Reference} & a few millimeters or even a few centimeters at most (we expect it to remain 0mm)\\ \hline
+        {\bf Controllable input} & in the order of \SI{500}{\kilo\newton}\\ \hline
         {\bf Uncontrollable input} & between \num{500} and \SI{1500}{\kilo\newton}\\ \hline
-        {\bf Output} & from a few millimeters to a few meters\\ \hline
+        {\bf Output} & from a few millimeters to a few centimeters (we don't want it to exceed 1m)\\ \hline
     \end{tabular}
     \caption{Constraints on signals}
     \label{tab:constraints_signals}
@@ -154,7 +154,7 @@ A random wind is a rather realistic scenario that can model multiple wind gusts 
 % Stability and eigenvalues
 \subsection{Stability and eigenvalues}
 \label{sec:eigenvalues}
-To study the stability of the system, one computes the eigenvalues of the dynamic matrix $A$ thanks to Matlab function (\texttt{eig}) :
+To study the stability of the system, we computed the eigenvalues of the dynamic matrix $A$ thanks to Matlab function (\texttt{eig}) :
 \begin{align*}
     \lambda_1 &= \num{-0.0634 + 6.2837i}\\
     \lambda_2 &= \num{-0.0634 - 6.2837i}\\
@@ -167,32 +167,32 @@ We also note that $\lambda_3$ and $\lambda_4$ are also very close to the imagina
 
 % Open loop system simulations
 \subsection{Open loop system simulations}
-We simulated during 30 seconds, in open loop, the different scenarios presented in section \ref{sec:numerical_values}. We also varied the initial conditions. Since we have not yet implemented a control mechanism, the controllable input of the system is at 0 for all simulations.
+We simulated during 30 seconds, in open loop, the different scenarios presented in section \ref{sec:numerical_values}. We also varied the initial conditions. Since we have not yet implemented a control mechanism, the controllable input of the system is at 0 for all simulations. It can be noted that the open-loop system is already \og{}controlled\fg{} by a tuned mass damper.
 
 \subsubsection{Initial conditions}
 For this simulation, we changed the initial conditions of our system without applying wind force. We have defined that the initial displacement of our building (state $x_1$) is \SI{0.003}{\meter}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{resources/eps/initial-conditions.eps}
-    \caption{Open loop simulation during \SI{30}{\second} with initial conditions}
+    \includegraphics[width=\textwidth]{resources/eps/2_initial-conditions.eps}
+    \caption{Open loop simulation during \SI{30}{\second} with initial conditions ($x_1=\SI{0.003}{\meter}$)}
 \end{figure}
-We can see that our system is very reactive: the building oscillates quite quickly. He very quickly regains his reference position.
+We can see that our system is very reactive: the building oscillates quite quickly. It also quickly regains a position oscillating close to its reference position.
 
 \subsubsection{Constant wind force}
 For this simulation, we applied a constant wind with zero initial conditions.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{resources/eps/constant-wind.eps}
-    \caption{Open loop simulation during \SI{30}{\second} for a constant wind force}
+    \includegraphics[width=\textwidth]{resources/eps/2_constant-wind.eps}
+    \caption{Open loop simulation during \SI{30}{\second} for a constant wind force ($x_1=\SI{0}{\meter}$)}
 \end{figure}
-In this case, we can see that the building also oscillates very quickly. These oscillations decrease quickly enough over time to finally stabilize at a position slightly different from its reference position.
+In this case, we can see that the building also oscillates very quickly. The displacement decreases quickly over time to finally oscillate around a position slightly different from its reference position.
 
 \subsubsection{Sinusoidal wind force}
 For this simulation, we applied a sinusoidal wind with zero initial conditions.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{resources/eps/sinusoidal-wind.eps}
-    \caption{Open loop simulation during \SI{30}{\second} for a sinusoidal wind force}
+    \includegraphics[width=\textwidth]{resources/eps/2_sinusoidal-wind.eps}
+    \caption{Open loop simulation during \SI{30}{\second} for a sinusoidal wind force ($x_1=\SI{0}{\meter}$)}
 \end{figure}
 We can see that the building's oscillations gradually increase, but quite rapidly, over time. A longer simulation has shown that these oscillations stabilize at a maximum value of \SI{0.1}{\meter} after about 30 seconds.
 
@@ -200,8 +200,8 @@ We can see that the building's oscillations gradually increase, but quite rapidl
 For this simulation, we applied a random wind with zero initial conditions.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{resources/eps/random-wind.eps}
-    \caption{Open loop simulation during \SI{30}{\second} for a random wind force}
+    \includegraphics[width=\textwidth]{resources/eps/2_random-wind.eps}
+    \caption{Open loop simulation during \SI{30}{\second} for a random wind force ($x_1=\SI{0}{\meter}$)}
 \end{figure}
 It can be seen that the building oscillates more or less identically and rapidly over time around a position slightly offset from its reference position.
 
@@ -212,12 +212,12 @@ Although the movements of our building are quite small, a controller could reduc
 
 % Observability
 \subsection{Observability}
-To determine whether or not the system is observable, one computes the observability matrix thanks to Matlab function (\texttt{obsv}).\par
+To determine whether or not the system is observable, we computed the observability matrix thanks to Matlab function (\texttt{obsv}).\par
 The matrix is full rank (verified with Matlab), the system is thus fully observable.\par
-As seen on the matrix C, one needs one sensor. According to the place of the non zero value, this sensor has to measure the $x_1$ state, namely the horizontal position of the top of the building $d_1$. This state is indeed the objective of the active mass damper and has thus to be observed. The sensor chosen is an accelerometer.
+As seen on the matrix C, we need one sensor. According to the place of the non zero value, this sensor has to measure the $x_1$ state, namely the horizontal position of the top of the building $d_1$. This state is indeed the objective of the active mass damper and has thus to be observed. The sensor chosen is a position sensor (although it does not exist in that form in reality).
 
 % Controllability
 \subsection{Controllability}
-To determine whether or not the system is controllable, one computes the controllable matrix thanks to Matlab function (\texttt{ctrb}). In order not to take into account the uncontrollable input (wind), only the second column of the B matrix was kept for the calculation.\par
+To determine whether or not the system is controllable, we computed the controllable matrix thanks to Matlab function (\texttt{ctrb}). In order not to take into account the uncontrollable input (wind), only the second column of the B matrix was kept for the calculation.\par
 The matrix is full rank (verified with Matlab), the system is thus fully controllable.\par
-As seen on matrix B, one needs only one actuator. The first column of the $B$ matrix represents the wind, while the second one concerns the damper. This latter is indeed the only controllable input and contains two non-zero elements. As a result, only one actuator is needed, and acts on two states, the speed of the building and the speed of the damper, as they take place on $x_2$ and $x_4$. The actuator chosen is a servo motor.
+As seen on matrix B, we need only one actuator. The first column of the $B$ matrix represents the wind, while the second one concerns the damper. This latter is indeed the only controllable input and contains two non-zero elements. As a result, only one actuator is needed, and acts on two states, the speed of the building and the speed of the damper, as they take place on $x_2$ and $x_4$. The chosen actuator is a piston.
