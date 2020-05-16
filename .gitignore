@@ -6,30 +6,9 @@
 *.DS_Store
 
 
-###########
-# Project #
-###########
-
-# Feedback
-/feedbacks/
-
-# Resources
-/resources/
-
-
 #####################
 # Matlab & Simulink #
 #####################
 
-matlab/figures/
-
 matlab/**/slprj/
 matlab/*.slxc
-
-
-##############
-# Exceptions #
-##############
-
-# LaTeX resources
-!/latex/**/resources/
