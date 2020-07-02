@@ -11,3 +11,7 @@ Project realized as part of the *Linear control systems* course given by Profess
 * **Bastien Hoffmann** - [Basthien](https://github.com/Basthien)
 * **Maxime Meurisse** - [meurissemax](https://github.com/meurissemax)
 * **Valentin Vermeylen** - [ValentinVermeylen](https://github.com/ValentinVermeylen)
+
+## Score
+
+* This project received a score of **19/20**.
